@@ -145,6 +145,7 @@ export default class IMouse {
     this.isMouseMoving =
       Math.abs(this.mouseDOMDelta.x) >= this.mouseMoveOffset ||
       Math.abs(this.mouseDOMDelta.y) >= this.mouseMoveOffset;
+    return this.isMouseMoving;
   }
 
   /**

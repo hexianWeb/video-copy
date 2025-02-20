@@ -14,9 +14,9 @@ export default class World {
     this.resources.on('ready', () => {
       // Setup
       this.environment = new Environment();
+      // 归一化小球
+      this.normalizedBall = new NormalizedBall();
     });
-    // 归一化小球
-    this.normalizedBall = new NormalizedBall();
   }
 
   update() {

@@ -65,10 +65,10 @@ void main() {
     vec2 aspect = vec2(uAspect.x,uAspect.y*1.0);
     vec2 noiseVec2 = fbm(vUv * 52.0)*uAspect*0.005;
 
-    vec4 leftMove =color + texture2D(prevTexture,vec2(vUv.x + noiseVec2.x ,vUv.y))*0.95;
-    vec4 rightMove =color + texture2D(prevTexture,vec2(vUv.x - noiseVec2.x,vUv.y))*0.95;
-    vec4 upMove = color + texture2D(prevTexture,vec2(vUv.x,vUv.y + noiseVec2.y))*0.95;
-    vec4 downMove = color + texture2D(prevTexture,vec2(vUv.x,vUv.y - noiseVec2.y))*0.95;
+    vec4 leftMove =color + texture2D(prevTexture,vec2(vUv.x + noiseVec2.x ,vUv.y))*0.97;
+    vec4 rightMove =color + texture2D(prevTexture,vec2(vUv.x - noiseVec2.x,vUv.y))*0.97;
+    vec4 upMove = color + texture2D(prevTexture,vec2(vUv.x,vUv.y + noiseVec2.y))*0.97;
+    vec4 downMove = color + texture2D(prevTexture,vec2(vUv.x,vUv.y - noiseVec2.y))*0.97;
 
     vec3 postprocessColor = blendLighter(color.rgb, leftMove.rgb);
     // 混合右移颜色

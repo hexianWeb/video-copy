@@ -3,6 +3,8 @@ import * as THREE from 'three';
 
 import Experience from '../experience.js';
 import FBOScene from './fbo-scene.js';
+import fragmentShader from './shaders/transition.frag';
+import vertexShader from './shaders/transition.vert';
 
 export default class normalizedBall {
   constructor() {
@@ -14,6 +16,11 @@ export default class normalizedBall {
     this.sizes = this.experience.sizes;
     this.renderer = this.experience.renderer.instance;
 
+    this.originalScale = 0.32; // Original radius from setGeometry
+    this.targetScale = this.originalScale;
+    this.currentScale = this.originalScale;
+    this.scaleSpeed = 0.1; // Adjust this value to control transition speed
+
     this.setGeometry();
     this.setMaterial();
     this.setMesh();
@@ -21,7 +28,7 @@ export default class normalizedBall {
   }
 
   setGeometry() {
-    this.geometry = new THREE.SphereGeometry(0.22, 32, 32);
+    this.geometry = new THREE.SphereGeometry(this.originalScale, 32, 32);
   }
 
   setMaterial() {
@@ -56,9 +63,19 @@ export default class normalizedBall {
 
     // 创建最终场景
     this.finalScene = new THREE.Scene();
-    this.finalMaterial = new THREE.MeshBasicMaterial({
-      map: this.sourceTarget.texture
+
+    // 创建自定义着色器材质
+    this.finalMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        tDiffuse1: { value: this.resources.items.earthTexture1 },
+        tDiffuse2: { value: this.resources.items.earthTexture2 },
+        tMask: { value: this.sourceTarget.texture },
+        uAspect: { value: this.sizes.aspect }
+      },
+      vertexShader,
+      fragmentShader
     });
+
     this.finalMesh = new THREE.Mesh(
       new THREE.PlaneGeometry(2 * this.sizes.aspect, 2, 1, 1),
       this.finalMaterial
@@ -68,6 +85,7 @@ export default class normalizedBall {
 
   update() {
     this.updatePosition();
+    this.updateScale();
     if (this.fboScene) {
       // 用于叠图的素材
       this.renderer.setRenderTarget(this.sourceTarget);
@@ -80,8 +98,10 @@ export default class normalizedBall {
         this.renderTargets[0].texture
       );
 
+      // 更新遮罩纹理
+      this.finalMaterial.uniforms.tMask.value = this.renderTargets[0].texture;
+
       // 渲染最终场景
-      this.finalMesh.material.map = this.renderTargets[0].texture;
       this.renderer.setRenderTarget(null);
       this.renderer.render(this.finalScene, this.camera);
 
@@ -90,6 +110,24 @@ export default class normalizedBall {
       this.renderTargets[0] = this.renderTargets[1];
       this.renderTargets[1] = temporary;
     }
+  }
+
+  updateScale() {
+    // Set target scale based on mouse movement
+    this.targetScale = this.iMouse.isMouseMoving
+      ? this.originalScale / 7
+      : this.originalScale;
+
+    // Smoothly interpolate current scale
+    this.currentScale +=
+      (this.targetScale - this.currentScale) * this.scaleSpeed;
+
+    // Update mesh scale
+    this.mesh.scale.set(
+      this.currentScale / this.originalScale,
+      this.currentScale / this.originalScale,
+      this.currentScale / this.originalScale
+    );
   }
 
   // 更新小球位置
