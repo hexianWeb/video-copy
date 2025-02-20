@@ -21,13 +21,13 @@ export default class normalizedBall {
   }
 
   setGeometry() {
-    this.geometry = new THREE.SphereGeometry(0.1, 32, 32);
+    this.geometry = new THREE.SphereGeometry(0.22, 32, 32);
   }
 
   setMaterial() {
     this.material = new THREE.MeshBasicMaterial({
       color: '#ffffff',
-      wireframe: true
+      wireframe: false
     });
   }
 

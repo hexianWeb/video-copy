@@ -1,15 +1,18 @@
 /* eslint-disable unicorn/no-null */
 import * as THREE from 'three';
 
+import Experience from '../experience';
 import fragmentShader from './shaders/fbo/fragment.glsl';
 import vertexShader from './shaders/fbo/vertex.glsl';
 
 export default class FBOScene {
   constructor() {
+    this.experience = new Experience();
+    this.sizes = this.experience.sizes;
+
     // 创建独立场景
     this.scene = new THREE.Scene();
 
-    this.scene.add(new THREE.AxesHelper(5));
     // 创建正交相机
     this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
     this.camera.position.z = 1;
@@ -23,7 +26,8 @@ export default class FBOScene {
       fragmentShader: fragmentShader,
       uniforms: {
         sourceTexture: { value: null },
-        prevTexture: { value: null }
+        prevTexture: { value: null },
+        uAspect: { value: new THREE.Vector2(1, 1 / this.sizes.aspect) }
       }
     });
 
