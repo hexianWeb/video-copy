@@ -15,11 +15,17 @@ export default class normalizedBall {
     this.camera = this.experience.camera.instance;
     this.sizes = this.experience.sizes;
     this.renderer = this.experience.renderer.instance;
+    this.time = this.experience.time; // 使用框架自带的时间
 
-    this.originalScale = 0.32; // Original radius from setGeometry
+    this.originalScale = 0.42; // Original radius from setGeometry
     this.targetScale = this.originalScale;
     this.currentScale = this.originalScale;
     this.scaleSpeed = 0.1; // Adjust this value to control transition speed
+
+    // 添加位置相关的属性
+    this.targetPosition = new THREE.Vector2(0, 0);
+    this.currentPosition = new THREE.Vector2(0, 0);
+    this.positionLerpSpeed = 0.038; // 可以调整这个值来控制位置过渡的速度
 
     this.setGeometry();
     this.setMaterial();
@@ -64,13 +70,19 @@ export default class normalizedBall {
     // 创建最终场景
     this.finalScene = new THREE.Scene();
 
+    // 引入视频
+    const video = document.querySelector('#video');
+    video.play();
+    const videoTexture = new THREE.VideoTexture(video);
+    videoTexture.colorSpace = THREE.SRGBColorSpace;
     // 创建自定义着色器材质
     this.finalMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        tDiffuse1: { value: this.resources.items.earthTexture1 },
-        tDiffuse2: { value: this.resources.items.earthTexture2 },
+        tDiffuse1: { value: this.resources.items.earthTexture2 },
+        tDiffuse2: { value: videoTexture },
         tMask: { value: this.sourceTarget.texture },
-        uAspect: { value: this.sizes.aspect }
+        uAspect: { value: this.sizes.aspect },
+        uTime: { value: 0 }
       },
       vertexShader,
       fragmentShader
@@ -84,8 +96,17 @@ export default class normalizedBall {
   }
 
   update() {
+    // 更新视频纹理
+    if (this.resources.items.earthVideo) {
+      this.resources.items.earthVideo.needsUpdate = true;
+    }
+
+    // 使用 experience.time.elapsed 代替 clock
+    this.finalMaterial.uniforms.uTime.value = this.time.elapsed * 0.01; // 转换为秒
+
     this.updatePosition();
     this.updateScale();
+
     if (this.fboScene) {
       // 用于叠图的素材
       this.renderer.setRenderTarget(this.sourceTarget);
@@ -129,13 +150,17 @@ export default class normalizedBall {
       this.currentScale / this.originalScale
     );
   }
-
   // 更新小球位置
   updatePosition() {
-    const mouseX = this.iMouse.normalizedMouse.x * this.sizes.aspect;
-    const mouseY = this.iMouse.normalizedMouse.y * 1;
+    // 更新目标位置
+    this.targetPosition.x = this.iMouse.normalizedMouse.x * this.sizes.aspect;
+    this.targetPosition.y = this.iMouse.normalizedMouse.y * 1;
 
-    this.mesh.position.x = mouseX;
-    this.mesh.position.y = mouseY;
+    // 使用 lerp 平滑过渡到目标位置
+    this.currentPosition.lerp(this.targetPosition, this.positionLerpSpeed);
+
+    // 更新mesh位置
+    this.mesh.position.x = this.currentPosition.x;
+    this.mesh.position.y = this.currentPosition.y;
   }
 }
