@@ -12,13 +12,13 @@ export default [
     ]
   },
   {
-    name: 'earthTexture1',
-    type: 'texture',
-    path: 'img/earth/2k_earth_color.jpeg'
+    name: 'earthVideo',
+    type: 'video',
+    path: '/textures/immersive/video.mp4'
   },
   {
     name: 'earthTexture2',
     type: 'texture',
-    path: 'img/earth/specularClouds.jpg'
+    path: './textures/immersive/2k_earth_color.jpeg'
   }
 ];
