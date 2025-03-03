@@ -34,29 +34,30 @@ void main() {
     // 混合下移颜色
     postprocessColor = blendLighter(postprocessColor, downMove.rgb);
 
-    float angle = uTime * 0.002; // 控制旋转角度
-    mat2 rotation = mat2(
-        cos(angle), -sin(angle),
-        sin(angle), cos(angle)
-    );
+    // 最终输出颜色
+    gl_FragColor = vec4(postprocessColor, 1.0);
+    // gl_FragColor = leftMove;
+}
+    // float angle = uTime * 0.002; // 控制旋转角度
+    // mat2 rotation = mat2(
+    //     cos(angle), -sin(angle),
+    //     sin(angle), cos(angle)
+    // );
 
-    // 创建螺旋状的扭曲效果
-    float spiral = length(vUv - 0.5) * 5.0;
-    vec2 spiralOffset = vec2(
-        cos(spiral + uTime*0.02),
-        sin(spiral + uTime*0.02)
-    ) * noiseVec2;
-        // 添加旋转和螺旋扭曲
-    vec2 rotatedNoise = rotation * noiseVec2;
-    vec4 spiral1 = color + texture2D(prevTexture, vUv + rotatedNoise + spiralOffset) * uBlendFactor;
-    vec4 spiral2 = color + texture2D(prevTexture, vUv - rotatedNoise - spiralOffset * 0.5) * uBlendFactor;
-    vec4 spiral3 = color + texture2D(prevTexture, vUv + vec2(rotatedNoise.y, -rotatedNoise.x) + spiralOffset * 0.7) * uBlendFactor;
-    vec4 spiral4 = color + texture2D(prevTexture, vUv + vec2(-rotatedNoise.y, rotatedNoise.x) - spiralOffset * 0.3) * uBlendFactor;
+    // // 创建螺旋状的扭曲效果
+    // float spiral = length(vUv - 0.5) * 5.0;
+    // vec2 spiralOffset = vec2(
+    //     cos(spiral + uTime*0.02),
+    //     sin(spiral + uTime*0.02)
+    // ) * noiseVec2;
+    //     // 添加旋转和螺旋扭曲
+    // vec2 rotatedNoise = rotation * noiseVec2;
+    // vec4 spiral1 = color + texture2D(prevTexture, vUv + rotatedNoise + spiralOffset) * uBlendFactor;
+    // vec4 spiral2 = color + texture2D(prevTexture, vUv - rotatedNoise - spiralOffset * 0.5) * uBlendFactor;
+    // vec4 spiral3 = color + texture2D(prevTexture, vUv + vec2(rotatedNoise.y, -rotatedNoise.x) + spiralOffset * 0.7) * uBlendFactor;
+    // vec4 spiral4 = color + texture2D(prevTexture, vUv + vec2(-rotatedNoise.y, rotatedNoise.x) - spiralOffset * 0.3) * uBlendFactor;
 
     // vec3 postprocessColor = blendLighter(color.rgb, spiral1.rgb);
     // postprocessColor = blendLighter(postprocessColor, spiral2.rgb);
     // postprocessColor = blendLighter(postprocessColor, spiral3.rgb);
     // postprocessColor = blendLighter(postprocessColor, spiral4.rgb);
-    // 最终输出颜色
-    gl_FragColor = vec4(postprocessColor, 1.0);
-}

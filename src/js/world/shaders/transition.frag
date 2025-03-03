@@ -14,5 +14,5 @@ void main() {
   float mixFactor = mask.r;
   vec4 finalColor = mix(tex2, tex1, mixFactor);
 
-  gl_FragColor = finalColor;
+  gl_FragColor = mask*0.8;
 }

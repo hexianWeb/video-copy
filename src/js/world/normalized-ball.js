@@ -92,6 +92,7 @@ export default class normalizedBall {
       new THREE.PlaneGeometry(2 * this.sizes.aspect, 2, 1, 1),
       this.finalMaterial
     );
+    this.finalMesh.rotateX(-Math.PI / 4);
     this.finalScene.add(this.finalMesh);
   }
 
