@@ -17,7 +17,7 @@ export default class normalizedBall {
     this.renderer = this.experience.renderer.instance;
     this.time = this.experience.time; // 使用框架自带的时间
 
-    this.originalScale = 0.4; // Original radius from setGeometry
+    this.originalScale = 0.2; // Original radius from setGeometry
     this.targetScale = this.originalScale;
     this.currentScale = this.originalScale;
     this.scaleSpeed = 0.1; // Adjust this value to control transition speed
@@ -95,7 +95,7 @@ export default class normalizedBall {
     this.finalMaterial.uniforms.uTime.value = this.time.elapsed * 0.01; // 转换为秒
 
     this.updatePosition();
-    this.updateScale();
+    // this.updateScale();
 
     if (this.fboScene) {
       // 用于叠图的素材
