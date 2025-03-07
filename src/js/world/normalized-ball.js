@@ -17,7 +17,7 @@ export default class normalizedBall {
     this.renderer = this.experience.renderer.instance;
     this.time = this.experience.time; // 使用框架自带的时间
 
-    this.originalScale = 0.42; // Original radius from setGeometry
+    this.originalScale = 0.4; // Original radius from setGeometry
     this.targetScale = this.originalScale;
     this.currentScale = this.originalScale;
     this.scaleSpeed = 0.1; // Adjust this value to control transition speed
@@ -25,7 +25,7 @@ export default class normalizedBall {
     // 添加位置相关的属性
     this.targetPosition = new THREE.Vector2(0, 0);
     this.currentPosition = new THREE.Vector2(0, 0);
-    this.positionLerpSpeed = 0.038; // 可以调整这个值来控制位置过渡的速度
+    this.positionLerpSpeed = 0.5; // 可以调整这个值来控制位置过渡的速度
 
     this.setGeometry();
     this.setMaterial();
@@ -70,16 +70,11 @@ export default class normalizedBall {
     // 创建最终场景
     this.finalScene = new THREE.Scene();
 
-    // 引入视频
-    const video = document.querySelector('#video');
-    video.play();
-    const videoTexture = new THREE.VideoTexture(video);
-    videoTexture.colorSpace = THREE.SRGBColorSpace;
     // 创建自定义着色器材质
     this.finalMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        tDiffuse1: { value: this.resources.items.earthTexture2 },
-        tDiffuse2: { value: videoTexture },
+        tDiffuse1: { value: this.resources.items.bg },
+        tDiffuse2: { value: this.resources.items.bg2 },
         tMask: { value: this.sourceTarget.texture },
         uAspect: { value: this.sizes.aspect },
         uTime: { value: 0 }
@@ -92,16 +87,10 @@ export default class normalizedBall {
       new THREE.PlaneGeometry(2 * this.sizes.aspect, 2, 1, 1),
       this.finalMaterial
     );
-    this.finalMesh.rotateX(-Math.PI / 4);
     this.finalScene.add(this.finalMesh);
   }
 
   update() {
-    // 更新视频纹理
-    if (this.resources.items.earthVideo) {
-      this.resources.items.earthVideo.needsUpdate = true;
-    }
-
     // 使用 experience.time.elapsed 代替 clock
     this.finalMaterial.uniforms.uTime.value = this.time.elapsed * 0.01; // 转换为秒
 
@@ -137,7 +126,7 @@ export default class normalizedBall {
   updateScale() {
     // Set target scale based on mouse movement
     this.targetScale = this.iMouse.isMouseMoving
-      ? this.originalScale / 7
+      ? this.originalScale / 2
       : this.originalScale;
 
     // Smoothly interpolate current scale

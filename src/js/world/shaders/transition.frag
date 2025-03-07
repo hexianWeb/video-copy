@@ -12,7 +12,7 @@ void main() {
 
   // 使用mask的alpha通道作为混合因子
   float mixFactor = mask.r;
-  vec4 finalColor = mix(tex2, tex1, mixFactor);
+  vec4 finalColor = mix(vec4(0.86), tex1, mixFactor);
 
-  gl_FragColor = mask*0.8;
+  gl_FragColor = finalColor;
 }

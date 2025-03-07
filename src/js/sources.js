@@ -17,8 +17,13 @@ export default [
     path: '/textures/immersive/video.mp4'
   },
   {
-    name: 'earthTexture2',
+    name: 'bg',
     type: 'texture',
-    path: './textures/immersive/2k_earth_color.jpeg'
+    path: './textures/immersive/bg.png'
+  },
+  {
+    name: 'bg2',
+    type: 'texture',
+    path: './textures/immersive/plaster.jpg'
   }
 ];
