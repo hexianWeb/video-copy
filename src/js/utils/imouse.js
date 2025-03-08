@@ -26,6 +26,8 @@ export default class IMouse {
     // Mouse movement detection
     this.isMouseMoving = false;
     this.mouseMoveOffset = 4;
+    // 判断鼠标是否在视窗内
+    this.isMouseInWindow = false;
 
     this.listenForMouse();
   }
@@ -102,6 +104,15 @@ export default class IMouse {
         event_.clientX,
         event_.clientY
       );
+      this.isMouseInWindow = true;
+    });
+
+    window.addEventListener('mouseout', () => {
+      this.isMouseInWindow = false;
+    });
+
+    window.addEventListener('mouseover', () => {
+      this.isMouseInWindow = true;
     });
   }
 
@@ -111,9 +122,13 @@ export default class IMouse {
   listenForMobile() {
     window.addEventListener('touchstart', (event_) => {
       this.updateTouchPosition(event_.touches[0]);
+      this.isMouseInWindow = true;
     });
     window.addEventListener('touchmove', (event_) => {
       this.updateTouchPosition(event_.touches[0]);
+    });
+    window.addEventListener('touchend', () => {
+      this.isMouseInWindow = false;
     });
   }
 

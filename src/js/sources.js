@@ -25,5 +25,15 @@ export default [
     name: 'bg2',
     type: 'texture',
     path: './textures/immersive/plaster.jpg'
+  },
+  {
+    name: 'map',
+    type: 'gltfModel',
+    path: './textures/immersive/map.glb'
+  },
+  {
+    name: 'navMap',
+    type: 'gltfModel',
+    path: './textures/immersive/navmesh.gltf'
   }
 ];

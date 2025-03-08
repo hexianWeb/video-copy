@@ -35,5 +35,5 @@ void main() {
 
     // 最终输出颜色
     // gl_FragColor = vec4(postprocessColor, 1.0);
-    gl_FragColor = color + (prevColor) * 0.98;
+    gl_FragColor = color + (prevColor) * 0.97;
 }
