@@ -3,8 +3,8 @@ import * as THREE from 'three';
 
 import Experience from '../experience.js';
 import FBOScene from './fbo-scene.js';
-import fragmentShader from './shaders/transition.frag';
-import vertexShader from './shaders/transition.vert';
+import fragmentShader from './shaders/transition/transition.frag';
+import vertexShader from './shaders/transition/transition.vert';
 
 export default class TransitionRenderer {
   constructor() {
@@ -40,8 +40,8 @@ export default class TransitionRenderer {
     // 创建自定义着色器材质
     this.finalMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        tDiffuse1: { value: this.resources.items.bg },
-        tDiffuse2: { value: this.resources.items.bg2 },
+        tDiffuse1: { value: null },
+        tDiffuse2: { value: this.resources.items['bg'] },
         tMask: { value: this.sourceTarget.texture },
         uAspect: { value: this.sizes.aspect },
         uTime: { value: 0 }
