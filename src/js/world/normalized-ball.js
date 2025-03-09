@@ -24,12 +24,12 @@ export default class NormalizedBall {
   }
 
   setGeometry() {
-    this.geometry = new THREE.SphereGeometry(0.125, 32, 32);
+    this.geometry = new THREE.SphereGeometry(0.35, 32, 32);
   }
 
   setMaterial() {
     this.material = new THREE.MeshBasicMaterial({
-      color: '#ffffff'
+      color: '#fff'
     });
   }
 
@@ -47,8 +47,8 @@ export default class NormalizedBall {
     // 设置初始位置
     this.vehicle.position.set(0, -2, 0);
     // 设置最大速度和加速度
-    this.vehicle.maxSpeed = 5;
-    this.vehicle.maxForce = 5;
+    this.vehicle.maxSpeed = 1.5;
+    this.vehicle.maxForce = 1.5;
 
     // 添加到达行为
     this.arriveBehavior = new YUKA.ArriveBehavior(
