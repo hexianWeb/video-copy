@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <!-- ESSENTIAL -->
@@ -33,80 +33,232 @@
     <link rel="icon" sizes="192x192" href="/favicon/favicon-192.webp" />
     <link rel="icon" sizes="512x512" href="/favicon/favicon-512.webp" />
 
-    <!-- GOOGLE -->
-    <meta name="rating" content="General" />
-    <meta name="robots" content="index,follow" />
-    <link
-      rel="sitemap"
-      type="application/xml"
-      title="Sitemap"
-      href="/sitemap.xml"
-    />
-    <meta
-      name="google-site-verification"
-      content="43hCqye5FYTS4SnBMPKNFP-wBhfLHwRBykWJF1WJawo"
-    />
-
-    <!-- FACEBOOK -->
-    <meta property="og:url" content="https://webpack-three-js.d1a.app" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Webpack ThreeJS — Template" />
-    <meta
-      property="og:description"
-      content="Boilerplate template designed to quickly bootstrapping a 3D Web App, SPA, website or landing page with Three.JS, GLSL, Vite, TailwindCSS, ESLint, Husky and much more in just 30 seconds."
-    />
-    <meta property="og:image" content="/og.jpg" />
-
-    <!-- TWITTER -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta property="twitter:domain" content="webpack-three-js.d1a.app" />
-    <meta property="twitter:url" content="https://webpack-three-js.d1a.app" />
-    <meta name="twitter:title" content="Webpack ThreeJS — Template" />
-    <meta
-      name="twitter:description"
-      content="Boilerplate template designed to quickly bootstrapping a 3D Web App, SPA, website or landing page with Three.JS, GLSL, Vite, TailwindCSS, ESLint, Husky and much more in just 30 seconds."
-    />
-    <meta name="twitter:image" content="/og.jpg" />
-
-    <!-- iOS -->
-    <link rel="apple-touch-icon" href="/favicon/favicon-512.webp" />
-    <link rel="mask-icon" href="/favicon/favicon-512.webp" color="black" />
-    <meta name="apple-mobile-web-app-title" content="Vite ThreeJS — Template" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-
-    <!-- ANDROID -->
-    <meta name="theme-color" content="#000" />
-    <meta name="mobile-web-app-capable" content="yes" />
-
     <script defer src="/_vercel/insights/script.js"></script>
+    <!-- 添加自定义动画所需的少量CSS -->
+    <style>
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fadeInUp {
+        animation: fadeInUp 0.8s ease-out forwards;
+      }
+      @keyframes moveGradient {
+        0% {
+          background-position: center bottom;
+        }
+        50% {
+          background-position: center 80%;
+        }
+        100% {
+          background-position: center bottom;
+        }
+      }
+
+      .radial-gradient-left {
+        background: radial-gradient(
+          ellipse 80% 60% at center bottom,
+          #fbc9c0 0%,
+          transparent 70%
+        );
+        width: 50%;
+        height: 100%;
+        animation: moveGradient 4s ease-in-out infinite;
+      }
+
+      .radial-gradient-right {
+        background: radial-gradient(
+          ellipse 80% 60% at center bottom,
+          #f3a4aa 0%,
+          transparent 70%
+        );
+        width: 50%;
+        height: 100%;
+        animation: moveGradient 4s ease-in-out infinite reverse;
+      }
+            /* 形状变化动画 */
+      @keyframes shapeShift {
+        0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        25% { border-radius: 50% 50% 40% 60% / 60% 40% 50% 40%; }
+        50% { border-radius: 30% 70% 50% 50% / 50% 60% 40% 50%; }
+        75% { border-radius: 60% 40% 30% 70% / 40% 50% 60% 40%; }
+      }
+      
+      /* 颜色变化动画 */
+      @keyframes colorShift {
+        0%, 100% { filter: hue-rotate(0deg); opacity: 0.7; }
+        33% { filter: hue-rotate(10deg); opacity: 0.8; }
+        66% { filter: hue-rotate(-10deg); opacity: 0.75; }
+      }
+      
+      /* 渐变层基础样式 */
+      .gradient-layer {
+        position: absolute;
+        bottom: -20%;
+        width: 100%;
+        height: 100%;
+        mix-blend-mode: screen;
+        animation: shapeShift 15s ease-in-out infinite, colorShift 10s ease-in-out infinite;
+      }
+      
+      /* 不同的渐变层样式 */
+      .gradient-layer-1 {
+        background: radial-gradient(
+          ellipse 80% 60% at center bottom,
+          #fbc9c0 0%,
+          transparent 70%
+        );
+      }
+      
+      .gradient-layer-2 {
+        background: radial-gradient(
+          ellipse 70% 50% at center bottom,
+          #f3a4aa 0%,
+          transparent 75%
+        );
+        opacity: 0.8;
+      }
+      
+      .gradient-layer-3 {
+        background: radial-gradient(
+          ellipse 60% 70% at center bottom,
+          #ff8fa3 0%,
+          transparent 80%
+        );
+        opacity: 0.6;
+      }
+      
+      .gradient-layer-4 {
+        background: radial-gradient(
+          circle 50% at center bottom,
+          #ffb3c6 0%,
+          transparent 75%
+        );
+        opacity: 0.7;
+      }
+      
+      /* 设置不同的动画延迟 */
+      .delay-1 { animation-delay: -3s, -1s; }
+      .delay-2 { animation-delay: -4s, -7s; }
+      .delay-3 { animation-delay: -1s, -5s; }
+      .delay-4 { animation-delay: -3s, -4s; }
+      .delay-5 { animation-delay: -5s, -2s; }
+      .delay-6 { animation-delay: -1s, -3s; }
+      .delay-7 { animation-delay: -2s, -1s; }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
-    <noscript class="text-center text-lg text-red-500">
-      Enable JavaScript to enjoy all the features of this app.
-    </noscript>
-    <main class="flex h-full bg-primary text-color">
-      <header
-        class="absolute top-0 z-[1] w-full cursor-default bg-accent-primary sm:w-auto"
-      >
-        <div class="relative flex justify-center">
-          <h1
-            class="z-[1] select-none p-4 text-xl font-semibold sm:text-2xl md:text-3xl"
-          >
-            Vite ThreeJS — Template
-          </h1>
-          <div
-            class="arrow-right top absolute -right-[43px] -top-[35px] hidden h-0 w-0 rotate-90 border-b-[60px] border-t-[70px] border-b-transparent border-l-accent-primary border-t-transparent sm:-right-[40px] sm:block sm:border-l-[70px] md:-right-[43px] md:border-l-[76px]"
-          ></div>
+  <body class="bg-gradient-to-b from-pink-400 to-pink-200">
+    <!-- 保留背景canvas -->
+    <canvas id="canvas" class="fixed left-0 top-0 z-[0] h-full w-full"></canvas>
+
+    <!-- 主要内容区域 -->
+    <main class="relative z-10 min-h-screen px-4 py-8 md:px-8">
+      <!-- 导航栏 -->
+      <nav class="fixed left-1/2 top-8 z-50 -translate-x-1/2">
+        <div
+          class="rounded-full bg-white/60 px-8 py-4 shadow-lg backdrop-blur-md"
+        >
+          <div class="flex space-x-12 text-black">
+            <a
+              href="#"
+              class="transition-all duration-300 hover:scale-110 hover:text-pink-500"
+              >首页</a
+            >
+            <a
+              href="#"
+              class="transition-all duration-300 hover:scale-110 hover:text-pink-500"
+              >生成</a
+            >
+            <a
+              href="#"
+              class="transition-all duration-300 hover:scale-110 hover:text-pink-500"
+              >模板</a
+            >
+            <a
+              href="#"
+              class="transition-all duration-300 hover:scale-110 hover:text-pink-500"
+              >价格</a
+            >
+          </div>
         </div>
-      </header>
-      <canvas id="canvas" class="z-[0] h-full w-full"></canvas>
+      </nav>
 
-      <video id="video" loop crossOrigin="anonymous" playsinline style="display:none">
-        <source src="./textures/immersive/cloud2.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-      </video>
+      <!-- 主标题区域 -->
+      <div
+        class="absolute left-1/2 top-1/3 max-w-4xl -translate-x-1/2 text-center"
+      >
+        <h1
+          class="animate-fadeInUp mb-4 text-4xl font-bold text-black opacity-0 md:text-6xl"
+          style="animation-delay: 0.2s"
+        >
+          AI Video Generation Platform
+        </h1>
+        <h2
+          class="animate-fadeInUp mb-8 text-xl font-semibold text-black opacity-0 md:text-5xl"
+          style="animation-delay: 0.4s"
+        >
+          AI 智能视频生成平台
+        </h2>
+        <p
+          class="animate-fadeInUp mb-12 text-lg text-slate-700 opacity-0 md:text-lg"
+          style="animation-delay: 0.6s"
+        >
+          一键生成营销视频，智能文案配音<br />
+          让创意更简单，让创作更高效
+        </p>
+
+        <!-- 按钮组 -->
+        <div
+          class="animate-fadeInUp flex flex-wrap justify-center gap-4 opacity-0"
+          style="animation-delay: 0.8s"
+        >
+          <button
+            class="rounded-full bg-white px-8 py-3 font-semibold text-pink-500 transition-all duration-300 hover:bg-pink-500 hover:text-black hover:shadow-lg"
+          >
+            开始创作
+          </button>
+          <button
+            class="rounded-full border-2 border-white px-8 py-3 font-semibold text-black transition-all duration-300 hover:bg-white hover:text-pink-500 hover:shadow-lg"
+          >
+            查看示例
+          </button>
+        </div>
+      </div>
+      <!-- <div class="fixed bottom-0 left-0 right-0 z-[1] flex h-[40vh] overflow-hidden">
+        <div class="radial-gradient-left"></div>
+        <div class="radial-gradient-right"></div>
+      </div> -->
+      <!-- 渐变容器（使用 Tailwind 类进行布局） -->
+      <div class="fixed bottom-0 left-0 right-0 flex h-[50vh] overflow-hidden pointer-events-none z-[1]">
+        <!-- 左侧渐变 -->
+        <div class="relative w-1/2 h-full">
+          <div class="gradient-layer gradient-layer-1"></div>
+          <div class="gradient-layer gradient-layer-2 delay-1"></div>
+          <div class="gradient-layer gradient-layer-3 delay-2"></div>
+          <div class="gradient-layer gradient-layer-4 delay-3"></div>
+        </div>
+        
+        <!-- 右侧渐变 -->
+        <div class="relative w-1/2 h-full">
+          <div class="gradient-layer gradient-layer-1 delay-4"></div>
+          <div class="gradient-layer gradient-layer-2 delay-5"></div>
+          <div class="gradient-layer gradient-layer-3 delay-6"></div>
+          <div class="gradient-layer gradient-layer-4 delay-7"></div>
+        </div>
+      </div>
     </main>
-
-    <script type="module" src="src/js/index.js"></script>
   </body>
+  <script type="module" src="src/js/index.js"></script>
 </html>
