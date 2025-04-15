@@ -12,28 +12,8 @@ export default [
     ]
   },
   {
-    name: 'earthVideo',
-    type: 'video',
-    path: '/textures/immersive/video.mp4'
-  },
-  {
     name: 'bg',
     type: 'texture',
     path: './textures/immersive/bg.png'
-  },
-  {
-    name: 'bg2',
-    type: 'texture',
-    path: './textures/immersive/plaster.jpg'
-  },
-  {
-    name: 'map',
-    type: 'gltfModel',
-    path: './textures/immersive/map.glb'
-  },
-  {
-    name: 'navMap',
-    type: 'gltfModel',
-    path: './textures/immersive/navmesh.gltf'
   }
 ];
